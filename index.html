@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f0ea">
+<meta name="description" content="12 道题，看看你们的边界差在哪里。答案只存在链接里，不上传、不保存。">
+<meta property="og:title" content="边界感默契测试｜看看你们差在哪里">
+<meta property="og:description" content="先看你的边界画像，再把链接发给 Ta，一起看差异报告。">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f6f0ea'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23b07f72' stroke-width='4'/%3E%3C/svg%3E">
+<title>边界感默契测试｜看看你们差在哪里</title>
+<style>
+  :root{
+    --bg:#f6f0ea;
+    --paper:#fffdfa;
+    --ink:#3b332d;
+    --muted:#83776c;
+    --faint:#a99b8f;
+    --line:#e9e0d6;
+    --rose:#b07f72;
+    --rose-soft:#f4e5e0;
+    --rose-deep:#97675b;
+    --sage:#87977f;
+    --sage-soft:#e9efe5;
+    --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC",serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100dvh;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 16% -4%, rgba(214,190,184,.38), transparent 44%),
+      radial-gradient(circle at 88% 8%, rgba(196,208,188,.42), transparent 42%),
+      var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .app{
+    width:100%;
+    max-width:520px;
+    min-height:100dvh;
+    margin:0 auto;
+    padding:34px 22px 64px;
+  }
+  .screen{display:none;}
+  .screen.is-active{display:block;animation:fade .45s ease both;}
+  #screen-landing.is-active{padding-top:6vh;}
+
+  .eyebrow{
+    margin:0;
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--rose);
+    font-weight:600;
+  }
+  .hero-title{
+    margin:16px 0 14px;
+    font-family:var(--serif);
+    font-size:clamp(32px,9vw,40px);
+    line-height:1.28;
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  .hero-sub{
+    margin:0;
+    font-size:15px;
+    color:var(--muted);
+    line-height:1.7;
+  }
+  .hero-meta{
+    margin:18px 0 20px;
+    font-size:12px;
+    letter-spacing:.08em;
+    color:var(--faint);
+  }
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin:0 0 26px;
+  }
+  .step{
+    padding:12px 10px 0;
+    border-top:1px solid var(--line);
+  }
+  .step span{
+    display:block;
+    font-family:var(--serif);
+    font-size:12px;
+    letter-spacing:.08em;
+    color:var(--rose);
+  }
+  .step p{
+    margin:4px 0 0;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--muted);
+  }
+  .footnote{
+    margin:24px 0 0;
+    text-align:center;
+    font-size:12px;
+    color:var(--faint);
+  }
+
+  .card{
+    margin:18px 0;
+    padding:20px 20px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+  }
+  .card.soft{
+    background:rgba(255,253,250,.55);
+    border-style:dashed;
+  }
+  .card-kicker{
+    margin:0 0 8px;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--sage);
+    font-weight:600;
+  }
+  .card-text{
+    margin:0;
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--muted);
+  }
+  .card h3{
+    margin:2px 0 8px;
+    font-family:var(--serif);
+    font-size:19px;
+    font-weight:600;
+  }
+
+  .btn{
+    display:block;
+    width:100%;
+    padding:15px 20px;
+    border:none;
+    border-radius:999px;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:.04em;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease, background .18s ease;
+  }
+  .btn + .btn{margin-top:12px;}
+  .btn-primary{
+    color:#fff;
+    background:var(--rose);
+    box-shadow:0 10px 24px rgba(176,127,114,.26);
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 13px 28px rgba(176,127,114,.3);}
+  .btn-primary:active{transform:scale(.99);}
+  .btn-primary:disabled{
+    opacity:.42;
+    cursor:not-allowed;
+    box-shadow:none;
+    transform:none;
+  }
+  .btn-ghost{
+    color:var(--muted);
+    background:transparent;
+    border:1px solid var(--line);
+  }
+  .btn-ghost:hover{background:rgba(255,253,250,.7);}
+  .btn:focus-visible,
+  .option:focus-visible,
+  .icon-btn:focus-visible,
+  .link-btn:focus-visible,
+  .link-box:focus-visible{
+    outline:2px solid var(--rose);
+    outline-offset:3px;
+  }
+
+  .join-list{
+    margin:24px 0 28px;
+    padding:0;
+    list-style:none;
+  }
+  .join-list li{
+    position:relative;
+    padding:9px 0 9px 22px;
+    font-size:14px;
+    color:var(--muted);
+    border-bottom:1px dashed var(--line);
+  }
+  .join-list li:last-child{border-bottom:none;}
+  .join-list li::before{
+    content:"";
+    position:absolute;
+    left:2px;
+    top:19px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--sage);
+  }
+  .link-btn{
+    display:block;
+    margin:18px auto 0;
+    padding:6px;
+    border:none;
+    background:none;
+    color:var(--faint);
+    font-family:inherit;
+    font-size:12.5px;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    cursor:pointer;
+  }
+
+  .quiz-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .icon-btn{
+    padding:4px 0;
+    border:none;
+    background:none;
+    color:var(--muted);
+    font-family:inherit;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .quiz-counter{
+    font-size:12px;
+    letter-spacing:.08em;
+    color:var(--faint);
+  }
+  .progress{
+    height:4px;
+    background:#eadfd5;
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .progress span{
+    display:block;
+    width:8.333%;
+    height:100%;
+    background:var(--rose);
+    border-radius:999px;
+    transition:width .3s ease;
+  }
+  .question{
+    margin:26px 0 20px;
+    font-family:var(--serif);
+    font-size:23px;
+    line-height:1.5;
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+  .options{display:grid;gap:10px;}
+  .option{
+    width:100%;
+    padding:14px 16px;
+    text-align:left;
+    font-family:inherit;
+    font-size:14.5px;
+    line-height:1.55;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    cursor:pointer;
+    transition:border-color .18s ease, background .18s ease, box-shadow .18s ease;
+  }
+  .option:hover{border-color:#d9cabe;}
+  .option.is-selected{
+    border-color:var(--rose);
+    background:var(--rose-soft);
+    box-shadow:inset 0 0 0 1px var(--rose);
+  }
+  #quiz-next{margin-top:22px;}
+  .quiz-hint{
+    margin:14px 0 0;
+    text-align:center;
+    font-size:12px;
+    color:var(--faint);
+  }
+
+  .result-title{
+    margin:12px 0 0;
+    font-family:var(--serif);
+    font-size:28px;
+    line-height:1.38;
+    font-weight:600;
+  }
+  .result-lead{
+    margin:12px 0 0;
+    font-size:14px;
+    line-height:1.75;
+    color:#6d6158;
+  }
+  .tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:18px 0 4px;
+  }
+  .tag{
+    padding:6px 10px;
+    border-radius:999px;
+    background:var(--sage-soft);
+    color:#5f6f59;
+    font-size:11.5px;
+    letter-spacing:.03em;
+  }
+  .section-title{
+    margin:30px 0 12px;
+    font-family:var(--serif);
+    font-size:17px;
+    font-weight:600;
+  }
+  .trait-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .trait-card{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    padding:13px 13px 11px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .trait-name{
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--muted);
+  }
+  .trait-options{display:flex;flex-direction:column;gap:6px;}
+  .side{
+    display:block;
+    padding:7px 9px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    background:#fbf7f2;
+    color:var(--faint);
+    font-size:12px;
+    line-height:1.35;
+  }
+  .side.on{
+    border-color:var(--rose);
+    background:var(--rose-soft);
+    color:var(--rose-deep);
+    font-weight:600;
+  }
+  .side.on::after{content:" ✓";}
+  .trait-degree{
+    font-size:10.5px;
+    letter-spacing:.03em;
+    color:var(--faint);
+  }
+
+  .invite{margin-top:30px;}
+  .link-box{
+    width:100%;
+    margin-top:14px;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#f7f0e8;
+    color:var(--muted);
+    font-family:inherit;
+    font-size:11px;
+    text-overflow:ellipsis;
+  }
+  #copy-invite{margin-top:12px;}
+
+  .score-wrap{text-align:center;margin:8px 0 6px;}
+  .score{
+    font-family:var(--serif);
+    font-size:64px;
+    line-height:1;
+    color:var(--rose);
+    letter-spacing:.01em;
+  }
+  .score-label{
+    margin-top:8px;
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--faint);
+  }
+  .report-title{
+    margin:16px 0 8px;
+    text-align:center;
+    font-family:var(--serif);
+    font-size:24px;
+    line-height:1.42;
+    font-weight:600;
+  }
+  .report-sub{
+    margin:0 0 20px;
+    text-align:center;
+    font-size:12.5px;
+    line-height:1.7;
+    color:var(--faint);
+  }
+  .summary-card{margin-top:0;}
+  .summary-line{
+    margin:0;
+    font-size:13.5px;
+    line-height:1.75;
+    color:var(--ink);
+  }
+  .summary-line + .summary-line{margin-top:7px;}
+  .compare-list{display:grid;gap:10px;}
+  .compare-item{
+    padding:13px 14px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .compare-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:9px;
+  }
+  .compare-name{
+    font-size:12.5px;
+    letter-spacing:.04em;
+    color:var(--muted);
+  }
+  .gap-badge{
+    flex:none;
+    padding:3px 8px;
+    border-radius:999px;
+    background:#f1eae0;
+    color:var(--faint);
+    font-size:10.5px;
+    letter-spacing:.03em;
+  }
+  .gap-badge.gap-close{background:var(--sage-soft);color:#5f6f59;}
+  .gap-badge.gap-far{background:var(--rose-soft);color:var(--rose-deep);}
+  .people{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .person-chip{
+    padding:8px 10px;
+    border-radius:9px;
+    font-size:12px;
+    line-height:1.4;
+  }
+  .person-me{background:var(--rose-soft);color:var(--rose-deep);}
+  .person-ta{background:var(--sage-soft);color:#5f6f59;}
+
+  .advice-list{display:grid;gap:10px;}
+  .advice-card{
+    display:flex;
+    gap:12px;
+    padding:15px 16px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .advice-num{
+    flex:none;
+    font-family:var(--serif);
+    font-size:15px;
+    line-height:1.5;
+    color:var(--rose);
+  }
+  .advice-body{min-width:0;}
+  .advice-tag{
+    display:block;
+    margin-bottom:5px;
+    font-size:10.5px;
+    letter-spacing:.05em;
+    color:var(--sage);
+  }
+  .advice-text{
+    margin:0;
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--ink);
+  }
+
+  .talks{display:grid;gap:10px;}
+  .talk{
+    display:flex;
+    gap:12px;
+    padding:14px 16px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .talk-num{
+    flex:none;
+    font-family:var(--serif);
+    font-size:15px;
+    line-height:1.5;
+    color:var(--rose);
+  }
+  .talk p{
+    margin:0;
+    font-size:13.5px;
+    line-height:1.65;
+  }
+  .report-actions{margin-top:28px;}
+
+  @keyframes fade{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important;}
+  }
+  @media (max-width:360px){
+    .app{padding-left:18px;padding-right:18px;}
+    .question{font-size:21px;}
+    .score{font-size:56px;}
+  }
+</style>
+</head>
+<body>
+<main class="app">
+
+  <section class="screen is-active" id="screen-landing">
+    <p class="eyebrow">Boundary · 边界感测试</p>
+    <h1 class="hero-title">你们的边界，<br>差在哪里？</h1>
+    <p class="hero-sub">12 道题，看看两个人相处时，哪些地方很合拍，哪些地方需要翻译。</p>
+    <p class="hero-meta">12 道题 · 约 3 分钟 · 无需注册</p>
+    <div class="steps">
+      <div class="step"><span>01</span><p>先看你的边界画像</p></div>
+      <div class="step"><span>02</span><p>把链接发给 Ta</p></div>
+      <div class="step"><span>03</span><p>一起看差异报告</p></div>
+    </div>
+    <button class="btn btn-primary" id="start-solo" type="button">开始测试</button>
+    <div class="card soft">
+      <p class="card-kicker">隐私说明</p>
+      <p class="card-text">答案只编码在链接里，不上传、不保存。测试结果只对拿到链接的人可见。</p>
+    </div>
+    <p class="footnote">收到 Ta 的邀请？直接打开 Ta 发来的链接即可。</p>
+  </section>
+
+  <section class="screen" id="screen-join">
+    <p class="eyebrow">Invitation · 收到邀请</p>
+    <h1 class="hero-title">Ta 想和你做一次<br>边界感对照</h1>
+    <p class="hero-sub">Ta 已经答完 12 道题。你答完后，会看到一份你们相处方式的差异报告。</p>
+    <ul class="join-list">
+      <li>没有对错，只呈现差异</li>
+      <li>不是出轨判定，也不是心理诊断</li>
+      <li>答案只存在链接里，不上传、不保存</li>
+    </ul>
+    <button class="btn btn-primary" id="start-join" type="button">开始答题</button>
+    <button class="link-btn" id="clear-hash" type="button">这是什么测试？</button>
+  </section>
+
+  <section class="screen" id="screen-quiz">
+    <div class="quiz-top">
+      <button class="icon-btn" id="quiz-back" type="button">返回</button>
+      <span class="quiz-counter" id="quiz-counter">第 1 / 12 题</span>
+    </div>
+    <div class="progress"><span id="quiz-progress"></span></div>
+    <h2 class="question" id="quiz-question"></h2>
+    <div class="options" id="quiz-options"></div>
+    <button class="btn btn-primary" id="quiz-next" type="button" disabled>下一题</button>
+    <p class="quiz-hint">凭第一感觉选就好，没有标准答案。</p>
+  </section>
+
+  <section class="screen" id="screen-solo">
+    <p class="eyebrow">Your Pattern · 你的画像</p>
+    <h1 class="result-title" id="solo-title"></h1>
+    <p class="result-lead" id="solo-summary"></p>
+    <div class="tags" id="solo-tags"></div>
+    <h3 class="section-title">六维画像</h3>
+    <div class="trait-grid" id="solo-traits"></div>
+    <h3 class="section-title">给你的 3 个幸福小建议</h3>
+    <div class="advice-list" id="solo-advice"></div>
+    <div class="card invite">
+      <p class="card-kicker">邀请 Ta 对照</p>
+      <h3>把测试发给 Ta</h3>
+      <p class="card-text">Ta 答完后会看到你们的差异报告，并发回给你。链接里只有你的答案，不上传、不保存。</p>
+      <input class="link-box" id="invite-link" type="text" readonly aria-label="邀请链接">
+      <button class="btn btn-primary" id="copy-invite" type="button">复制邀请链接</button>
+    </div>
+    <button class="btn btn-ghost" id="solo-restart" type="button">重新测一次</button>
+  </section>
+
+  <section class="screen" id="screen-report">
+    <p class="eyebrow">Together · 差异报告</p>
+    <div class="score-wrap">
+      <div class="score" id="report-score">--</div>
+      <div class="score-label">相处接近度 · 满分 100</div>
+    </div>
+    <h1 class="report-title" id="report-headline"></h1>
+    <p class="report-sub" id="report-sub"></p>
+    <div class="card summary-card">
+      <p class="card-kicker">一句话看懂</p>
+      <div id="report-summary"></div>
+    </div>
+    <h3 class="section-title">六个维度对照</h3>
+    <div class="compare-list" id="compare-list"></div>
+    <h3 class="section-title">给你们的 3 个相处建议</h3>
+    <div class="advice-list" id="report-advice"></div>
+    <h3 class="section-title">可以聊聊</h3>
+    <div class="talks" id="talk-list"></div>
+    <div class="card soft">
+      <p class="card-text">这不是出轨判定，也不是心理诊断。它只呈现你们答案里的差异，关系怎么走，还是你们自己决定。</p>
+    </div>
+    <div class="report-actions">
+      <button class="btn btn-primary" id="copy-report" type="button">复制报告发给 Ta</button>
+      <button class="btn btn-ghost" id="report-restart" type="button">重新测试</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var DIMS = ['boundary', 'transparency', 'closeness', 'security', 'repair', 'commitment'];
+
+  var DIM_META = {
+    boundary: {
+      name: '边界感',
+      high: '清晰边界',
+      low: '宽松信任',
+      needHigh: '说清楚的规则',
+      needLow: '不被追问的空间',
+      textHigh: '你更希望关系里有说清楚的规则：哪些事可以、哪些事不行。规则让你安心，而不是束缚。',
+      textLow: '你更愿意用信任代替规则，不太喜欢把相处变成一条条约定。给你空间，你反而更放松。',
+      tipHigh: '规则是为了安心，不是为了控制。下次定约定时，加一句「如果你不舒服，我们可以改」。',
+      tipLow: '宽松不等于没底线。把你在意的一两件事说具体，比一直说「都行」更容易被理解。',
+      bridge: '一起写下两三条「需要提前说」和「可以事后讲」的事。规则双方都同意，才不会变成单方面限制。',
+      talk: '哪些事你觉得需要提前说，哪些可以事后讲？'
+    },
+    transparency: {
+      name: '透明感',
+      high: '主动共享',
+      low: '保留空间',
+      needHigh: '坦诚的分享',
+      needLow: '可呼吸的余地',
+      textHigh: '你倾向于主动分享日常，也希望对方愿意让你了解 Ta 的生活。信息透明让你有安全感。',
+      textLow: '你需要一块不被追问的空间。不是隐瞒，而是有些事你更愿意自己消化。',
+      tipHigh: '透明不等于随时汇报。分享前先问自己：我是在分享，还是在求确认？',
+      tipLow: '保留空间可以，但告诉对方「我需要自己消化一下，不是不信任你」，能少很多误会。',
+      bridge: '各自说出「我愿意主动分享什么」和「我希望保留什么」，先交换清单，再商量中间地带。',
+      talk: '你希望对方主动分享到什么程度？哪些部分可以保留？'
+    },
+    closeness: {
+      name: '联结感',
+      high: '高频联结',
+      low: '各自独立',
+      needHigh: '稳定的联结',
+      needLow: '各自独立的时间',
+      textHigh: '你需要比较多的联结和回应，一起做事、知道彼此在忙什么，会让你觉得关系是活的。',
+      textLow: '你享受各自忙碌的状态，认为好的关系不需要时时刻刻黏在一起。',
+      tipHigh: '想联结时直接说「我想和你待一会儿」，少用试探和暗示。',
+      tipLow: '独处前说一句「我去充个电」，比突然消失更让人安心。',
+      bridge: '分别说出自己一周需要多少独处、多少相处，取一个双方都能接受的中间值，先试两周。',
+      talk: '一周里，你们各自需要多少独处时间？'
+    },
+    security: {
+      name: '安全感',
+      high: '需要确认',
+      low: '自我安定',
+      needHigh: '明确的回应',
+      needLow: '自我消化的余地',
+      textHigh: '你对回应和态度比较敏感，需要明确的确认来安心。这不是矫情，是你在意的方式。',
+      textLow: '你比较能自我安定，不太会因为回复慢或情绪波动就联想到关系问题。',
+      tipHigh: '焦虑时先分清事实和想象，再把「你怎么不回我」换成「你忙的时候说一声，我会安心」。',
+      tipLow: '你很能自我安定，但别把独立当成不需要。需要陪伴时，开口也是一种能力。',
+      bridge: '约定一个「忙碌信号」：忙时发一句「我在忙，晚点回」。这比要求秒回更容易做到。',
+      talk: '对方做什么会让你安心？做什么会让你开始胡思乱想？'
+    },
+    repair: {
+      name: '修复节奏',
+      high: '当场说清',
+      low: '冷静消化',
+      needHigh: '当场说开的修复',
+      needLow: '冷静后再谈的节奏',
+      textHigh: '你希望问题当场说开，拖着会让你更难受。把话讲清楚，你才睡得着。',
+      textLow: '你需要时间冷静，情绪过去后再谈反而更有效。你不喜欢在气头上做决定。',
+      tipHigh: '想当场说清时，先问一句「现在方便聊吗」。解决问题比争对错更重要。',
+      tipLow: '冷静可以，但给一个时间点，比如「我今晚想想，明天再聊」。沉默容易被当成冷战。',
+      bridge: '吵架后各自说一个「我需要多久缓过来」，并约定谁先开口。冷静不是冷战，要给时间点。',
+      talk: '吵架后你们各自需要多久缓过来？谁先开口更舒服？'
+    },
+    commitment: {
+      name: '关系进度',
+      high: '明确长期',
+      low: '顺其自然',
+      needHigh: '看得见的未来',
+      needLow: '不被催促的节奏',
+      textHigh: '你喜欢关系有清晰的进度和共识，知道彼此要去哪里，会让你更踏实。',
+      textLow: '你更愿意顺其自然，不喜欢被时间表推着走。关系走到哪一步，到了自然知道。',
+      tipHigh: '想要明确时，留出对方的速度。把「什么时候」换成「你希望怎么推进」。',
+      tipLow: '顺其自然不等于回避。定期聊一次「我们现在在哪」，能让彼此都更踏实。',
+      bridge: '定期聊一次「我们现在在哪、下一步想要什么」。不用逼出时间表，但要避免靠猜。',
+      talk: '你们对「什么时候算稳定」的理解一样吗？'
+    }
+  };
+
+  var SOLO_ACTION = '这周给自己留 30 分钟不被打扰的时间，做一件只让自己舒服的事。先照顾好自己，关系里才更有余地。';
+  var COUPLE_ACTION = '这周找一个 10 分钟，各自说一件「最近有点在意但没说」的小事。规则：不打断、不辩解，先复述对方的意思，再说自己的感受。';
+
+  var QUESTIONS = [
+    {
+      text: '伴侣和一位你没见过的朋友单独吃饭，你的第一反应是？',
+      options: [
+        { t: '很正常，彼此信任就好', s: { boundary: -1 } },
+        { t: '提前说一声就行', s: { boundary: -0.33 } },
+        { t: '会想知道对方是谁、聊什么', s: { boundary: 0.33 } },
+        { t: '不太能接受', s: { boundary: 1 } }
+      ]
+    },
+    {
+      text: '关于手机和社交账号，你更倾向？',
+      options: [
+        { t: '各自保留空间，不需要看', s: { boundary: -1 } },
+        { t: '不主动查，看到也无所谓', s: { boundary: -0.33 } },
+        { t: '希望彼此知道密码', s: { boundary: 0.33 } },
+        { t: '觉得可以随时互相看', s: { boundary: 1 } }
+      ]
+    },
+    {
+      text: '一整天没怎么联系，你会？',
+      options: [
+        { t: '各忙各的，晚上聊也一样', s: { transparency: -1 } },
+        { t: '有空就回，不需要刻意报备', s: { transparency: -0.33 } },
+        { t: '希望对方简单说一声在忙什么', s: { transparency: 0.33 } },
+        { t: '希望随时知道彼此的动态', s: { transparency: 1 } }
+      ]
+    },
+    {
+      text: '聊到过去的感情经历，你更愿意？',
+      options: [
+        { t: '过去就过去了，不想细说', s: { transparency: -1 } },
+        { t: '问起来会说个大概', s: { transparency: -0.33 } },
+        { t: '愿意坦诚聊，但不主动提', s: { transparency: 0.33 } },
+        { t: '觉得应该把重要的都说清楚', s: { transparency: 1 } }
+      ]
+    },
+    {
+      text: '周末两天，你理想的状态是？',
+      options: [
+        { t: '各自安排，留一点距离', s: { closeness: -1 } },
+        { t: '各忙各的，晚上一起吃饭', s: { closeness: -0.33 } },
+        { t: '尽量留一天一起过', s: { closeness: 0.33 } },
+        { t: '希望大部分时间都在一起', s: { closeness: 1 } }
+      ]
+    },
+    {
+      text: '伴侣去参加朋友聚会，你更希望？',
+      options: [
+        { t: '各玩各的，互不打扰', s: { closeness: -1 } },
+        { t: '偶尔一起，平时各忙各的', s: { closeness: -0.33 } },
+        { t: '希望 Ta 提前说一声去哪、和谁', s: { closeness: 0.33 } },
+        { t: '希望能一起去，或者随时联系', s: { closeness: 1 } }
+      ]
+    },
+    {
+      text: '对方几个小时没回消息，你会？',
+      options: [
+        { t: '该忙就忙，看到了自然会回', s: { security: -1 } },
+        { t: '会看一眼，但不会多想', s: { security: -0.33 } },
+        { t: '会有点在意，想知道怎么了', s: { security: 0.33 } },
+        { t: '会忍不住反复看手机', s: { security: 1 } }
+      ]
+    },
+    {
+      text: '对方情绪低落但没主动说，你会？',
+      options: [
+        { t: '给 Ta 空间，想说自然会说', s: { security: -1 } },
+        { t: '先观察一下，需要时再问', s: { security: -0.33 } },
+        { t: '会主动问，希望 Ta 说出来', s: { security: 0.33 } },
+        { t: '会有些不安，担心是不是自己的问题', s: { security: 1 } }
+      ]
+    },
+    {
+      text: '吵架之后，你更需要？',
+      options: [
+        { t: '先各自冷静，过一晚再说', s: { repair: -1 } },
+        { t: '缓一缓，但不会拖太久', s: { repair: -0.33 } },
+        { t: '当天就想把话说开', s: { repair: 0.33 } },
+        { t: '必须立刻说清楚，不然睡不着', s: { repair: 1 } }
+      ]
+    },
+    {
+      text: '对方迟到或临时爽约，你更在意？',
+      options: [
+        { t: '没关系，谁都会有事', s: { repair: -1 } },
+        { t: '会有点在意，但先不说', s: { repair: -0.33 } },
+        { t: '会当场说一句，希望 Ta 注意', s: { repair: 0.33 } },
+        { t: '会希望 Ta 认真解释，把这件事聊清楚', s: { repair: 1 } }
+      ]
+    },
+    {
+      text: '在一起多久后，你希望公开关系？',
+      options: [
+        { t: '顺其自然，不急着定义', s: { commitment: -1 } },
+        { t: '稳定了自然会公开', s: { commitment: -0.33 } },
+        { t: '希望几个月内让朋友知道', s: { commitment: 0.33 } },
+        { t: '越早明确越好', s: { commitment: 1 } }
+      ]
+    },
+    {
+      text: '聊到未来规划，你更倾向？',
+      options: [
+        { t: '过好现在，未来走一步看一步', s: { commitment: -1 } },
+        { t: '有大致方向就好，不必太细', s: { commitment: -0.33 } },
+        { t: '希望聊清楚接下来的打算', s: { commitment: 0.33 } },
+        { t: '希望有明确的时间表和共识', s: { commitment: 1 } }
+      ]
+    }
+  ];
+
+  var state = {
+    mode: 'solo',
+    viewer: 'host',
+    q: 0,
+    answers: blank(),
+    a: null,
+    b: null,
+    report: null
+  };
+
+  function $(id) {
+    return document.getElementById(id);
+  }
+
+  function blank() {
+    return new Array(QUESTIONS.length).fill(null);
+  }
+
+  function show(id) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i += 1) {
+      screens[i].classList.toggle('is-active', screens[i].id === id);
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function digits(str) {
+    return str.split('').map(Number);
+  }
+
+  function serialize(answers) {
+    return answers.join('');
+  }
+
+  function baseUrl() {
+    return location.href.split('#')[0];
+  }
+
+  function parseHash() {
+    var raw = location.hash.replace(/^#/, '');
+    var params = new URLSearchParams(raw);
+    var a = params.get('a') || '';
+    var b = params.get('b') || '';
+    return {
+      a: /^[0-3]{12}$/.test(a) ? a : '',
+      b: /^[0-3]{12}$/.test(b) ? b : ''
+    };
+  }
+
+  function clearHash() {
+    try {
+      history.replaceState(null, '', location.pathname + location.search);
+    } catch (error) {
+      location.hash = '';
+    }
+  }
+
+  function computeScores(answers) {
+    var sum = {};
+    var count = {};
+    DIMS.forEach(function (d) {
+      sum[d] = 0;
+      count[d] = 0;
+    });
+    QUESTIONS.forEach(function (q, i) {
+      var pick = answers[i];
+      if (pick === null || pick === undefined) return;
+      var scores = q.options[pick].s;
+      Object.keys(scores).forEach(function (d) {
+        if (sum[d] === undefined) return;
+        sum[d] += scores[d];
+        count[d] += 1;
+      });
+    });
+    var out = {};
+    DIMS.forEach(function (d) {
+      out[d] = count[d] ? sum[d] / count[d] : 0;
+    });
+    return out;
+  }
+
+  function descriptor(d, value) {
+    if (Math.abs(value) < 0.16) return '居中';
+    return value >= 0 ? DIM_META[d].high : DIM_META[d].low;
+  }
+
+  function degree(value) {
+    var abs = Math.abs(value);
+    if (abs < 0.16) return '居中';
+    if (abs < 0.6) return '略微偏向';
+    return '倾向明显';
+  }
+
+  function traitCard(d, value) {
+    var meta = DIM_META[d];
+    var lowOn = value <= -0.16;
+    var highOn = value >= 0.16;
+    return '<div class="trait-card">'
+      + '<span class="trait-name">' + meta.name + '</span>'
+      + '<div class="trait-options">'
+      + '<span class="side' + (lowOn ? ' on' : '') + '">' + meta.low + '</span>'
+      + '<span class="side' + (highOn ? ' on' : '') + '">' + meta.high + '</span>'
+      + '</div>'
+      + '<span class="trait-degree">' + degree(value) + '</span>'
+      + '</div>';
+  }
+
+  function gapLabel(diff) {
+    if (diff < 0.01) return '完全一致';
+    if (diff <= 0.35) return '比较接近';
+    if (diff <= 0.9) return '有些不同';
+    return '差异明显';
+  }
+
+  function gapClass(diff) {
+    if (diff <= 0.35) return 'gap-close';
+    if (diff > 0.9) return 'gap-far';
+    return '';
+  }
+
+  function compareItem(d, report) {
+    var meta = DIM_META[d];
+    var diff = Math.abs(report.va[d] - report.vb[d]);
+    return '<div class="compare-item">'
+      + '<div class="compare-head"><span class="compare-name">' + meta.name + '</span>'
+      + '<span class="gap-badge ' + gapClass(diff) + '">' + gapLabel(diff) + '</span></div>'
+      + '<div class="people">'
+      + '<span class="person-chip person-me">你 · ' + descriptor(d, report.mine[d]) + '</span>'
+      + '<span class="person-chip person-ta">Ta · ' + descriptor(d, report.other[d]) + '</span>'
+      + '</div></div>';
+  }
+
+  function summaryLines(report) {
+    var lines = [];
+    if (report.same.length) {
+      lines.push('你们在「' + report.same.map(function (d) {
+        return DIM_META[d].name;
+      }).join('」「') + '」上最接近。');
+    } else {
+      lines.push('这次没有特别接近的维度，差异本身就是话题。');
+    }
+    if (report.far.length) {
+      var top = report.far[0];
+      lines.push('最值得聊的是「' + DIM_META[top].name + '」：你更偏向「'
+        + descriptor(top, report.mine[top]) + '」，Ta 更偏向「'
+        + descriptor(top, report.other[top]) + '」。');
+    } else {
+      lines.push('六个维度都没有明显冲突，更多是程度上的小差别。');
+    }
+    return lines;
+  }
+
+  function adviceCard(item, index) {
+    return '<div class="advice-card"><span class="advice-num">0' + (index + 1) + '</span>'
+      + '<div class="advice-body"><span class="advice-tag">' + item.tag + '</span>'
+      + '<p class="advice-text">' + item.text + '</p></div></div>';
+  }
+
+  function soloAdvice(scores, ranked) {
+    var items = ranked.slice(0, 2).map(function (d) {
+      var meta = DIM_META[d];
+      var neutral = Math.abs(scores[d]) < 0.16;
+      var positive = scores[d] >= 0;
+      return {
+        tag: meta.name + ' · ' + (neutral ? '居中' : (positive ? meta.high : meta.low)),
+        text: neutral
+          ? '你在这方面比较有弹性，既能接受「' + meta.low + '」，也能接受「' + meta.high + '」。把这种弹性说出来，对方会更容易理解你的边界。'
+          : (positive ? meta.tipHigh : meta.tipLow)
+      };
+    });
+    items.push({ tag: '本周小行动', text: SOLO_ACTION });
+    return items;
+  }
+
+  function reportAdvice(report) {
+    var items = report.far.map(function (d) {
+      var diff = Math.abs(report.va[d] - report.vb[d]);
+      return { tag: DIM_META[d].name + ' · ' + gapLabel(diff), text: DIM_META[d].bridge };
+    });
+    items = items.concat([
+      { tag: '把欣赏说出口', text: '差异不大时，最容易忽略的是把欣赏说出口。这周各自说一件「我很喜欢你这样做」的小事。' },
+      { tag: '保持靠近', text: '你们的方向比较一致，可以一起定一个「定期聊一次关系」的小习惯，别等出问题才沟通。' }
+    ]).slice(0, 2);
+    items.push({ tag: '本周小行动', text: COUPLE_ACTION });
+    return items;
+  }
+
+  function headline(score) {
+    if (score >= 86) return '你们很像，连边界都长在同一侧';
+    if (score >= 76) return '大方向合拍，几处细节需要对齐';
+    if (score >= 66) return '差异不小，但都能被看见';
+    return '你们需要更多翻译，而不是猜测';
+  }
+
+  function getReport(viewer) {
+    var va = computeScores(state.a);
+    var vb = computeScores(state.b);
+    var mine = viewer === 'guest' ? vb : va;
+    var other = viewer === 'guest' ? va : vb;
+    var total = 0;
+    DIMS.forEach(function (d) {
+      total += Math.abs(va[d] - vb[d]);
+    });
+    var avg = total / DIMS.length;
+    var score = Math.max(55, Math.min(97, Math.round(97 - avg * 26)));
+    var byCloseness = DIMS.slice().sort(function (x, y) {
+      return Math.abs(va[x] - vb[x]) - Math.abs(va[y] - vb[y]);
+    });
+    var byDistance = DIMS.slice().sort(function (x, y) {
+      return Math.abs(va[y] - vb[y]) - Math.abs(va[x] - vb[x]);
+    });
+    var same = byCloseness.filter(function (d) {
+      return Math.abs(va[d] - vb[d]) <= 0.55;
+    }).slice(0, 2);
+    var far = byDistance.filter(function (d) {
+      return Math.abs(va[d] - vb[d]) >= 0.5;
+    }).slice(0, 2);
+    var prompts = far.map(function (d) {
+      return DIM_META[d].talk;
+    });
+    prompts = prompts.concat([
+      '你们各自最需要对方理解的一点是什么？',
+      '有哪些小事，可以提前约定一个双方都舒服的做法？'
+    ]).slice(0, 2);
+    prompts.push('如果只能改一个相处习惯，你最希望对方改什么？你最愿意改什么？');
+    return {
+      va: va,
+      vb: vb,
+      mine: mine,
+      other: other,
+      score: score,
+      headline: headline(score),
+      same: same,
+      far: far,
+      prompts: prompts,
+      link: baseUrl() + '#a=' + serialize(state.a) + '&b=' + serialize(state.b)
+    };
+  }
+
+  function renderSolo() {
+    var scores = computeScores(state.a);
+    var ranked = DIMS.slice().sort(function (x, y) {
+      return Math.abs(scores[y]) - Math.abs(scores[x]);
+    });
+    var top = ranked[0];
+    var meta = DIM_META[top];
+    var positive = scores[top] >= 0;
+
+    $('solo-title').textContent = '你是「' + (positive ? meta.high : meta.low) + '」型';
+    $('solo-summary').textContent = '在关系里，你更需要「'
+      + (positive ? meta.needHigh : meta.needLow) + '」。'
+      + (positive ? meta.textHigh : meta.textLow);
+
+    var tags = ranked.filter(function (d) {
+      return Math.abs(scores[d]) >= 0.2;
+    }).slice(0, 3).map(function (d) {
+      return DIM_META[d].name + ' · ' + (scores[d] >= 0 ? DIM_META[d].high : DIM_META[d].low);
+    });
+    if (!tags.length) tags.push('整体比较居中');
+
+    $('solo-tags').innerHTML = tags.map(function (tag) {
+      return '<span class="tag">' + tag + '</span>';
+    }).join('');
+
+    $('solo-traits').innerHTML = DIMS.map(function (d) {
+      return traitCard(d, scores[d]);
+    }).join('');
+
+    $('solo-advice').innerHTML = soloAdvice(scores, ranked).map(adviceCard).join('');
+
+    $('invite-link').value = baseUrl() + '#a=' + serialize(state.a);
+  }
+
+  function renderReport(viewer) {
+    state.viewer = viewer;
+    var report = getReport(viewer);
+    state.report = report;
+
+    $('report-score').textContent = report.score;
+    $('report-headline').textContent = report.headline;
+    $('report-sub').textContent = viewer === 'guest'
+      ? '报告已生成。把它发回给 Ta，你们就能对着同一份结果聊。分数只表示答案的接近程度，不代表关系好坏。'
+      : '这是 Ta 答完后发回的报告。分数只表示答案的接近程度，不代表关系好坏。';
+
+    $('report-summary').innerHTML = summaryLines(report).map(function (line) {
+      return '<p class="summary-line">' + line + '</p>';
+    }).join('');
+
+    $('compare-list').innerHTML = DIMS.map(function (d) {
+      return compareItem(d, report);
+    }).join('');
+
+    $('report-advice').innerHTML = reportAdvice(report).map(adviceCard).join('');
+
+    $('talk-list').innerHTML = report.prompts.map(function (prompt, i) {
+      return '<div class="talk"><span class="talk-num">0' + (i + 1) + '</span><p>' + prompt + '</p></div>';
+    }).join('');
+
+    $('copy-report').textContent = viewer === 'guest' ? '复制报告发给 Ta' : '复制报告文案';
+  }
+
+  function renderQuestion() {
+    var question = QUESTIONS[state.q];
+    var selected = state.answers[state.q];
+
+    $('quiz-counter').textContent = '第 ' + (state.q + 1) + ' / ' + QUESTIONS.length + ' 题';
+    $('quiz-progress').style.width = ((state.q + 1) / QUESTIONS.length * 100) + '%';
+    $('quiz-question').textContent = question.text;
+
+    var box = $('quiz-options');
+    box.innerHTML = '';
+    question.options.forEach(function (option, index) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'option' + (selected === index ? ' is-selected' : '');
+      button.setAttribute('aria-pressed', selected === index ? 'true' : 'false');
+      button.dataset.index = String(index);
+      button.textContent = option.t;
+      box.appendChild(button);
+    });
+
+    $('quiz-next').disabled = selected === null || selected === undefined;
+    $('quiz-next').textContent = state.q === QUESTIONS.length - 1
+      ? (state.mode === 'solo' ? '看我的画像' : '生成差异报告')
+      : '下一题';
+  }
+
+  function startSolo() {
+    state.mode = 'solo';
+    state.q = 0;
+    state.answers = blank();
+    state.a = null;
+    state.b = null;
+    state.report = null;
+    show('screen-quiz');
+    renderQuestion();
+  }
+
+  function startJoin() {
+    state.mode = 'join';
+    state.q = 0;
+    state.answers = blank();
+    state.b = null;
+    state.report = null;
+    show('screen-quiz');
+    renderQuestion();
+  }
+
+  function finishQuiz() {
+    if (state.mode === 'solo') {
+      state.a = state.answers.slice();
+      renderSolo();
+      show('screen-solo');
+      return;
+    }
+    state.b = state.answers.slice();
+    renderReport('guest');
+    show('screen-report');
+  }
+
+  function initFromHash() {
+    var hash = parseHash();
+    state.q = 0;
+    state.answers = blank();
+    state.report = null;
+
+    if (hash.a && hash.b) {
+      state.mode = 'report';
+      state.a = digits(hash.a);
+      state.b = digits(hash.b);
+      state.viewer = 'host';
+      renderReport('host');
+      show('screen-report');
+      return;
+    }
+    if (hash.a) {
+      state.mode = 'join';
+      state.a = digits(hash.a);
+      state.b = null;
+      show('screen-join');
+      return;
+    }
+    state.mode = 'solo';
+    state.a = null;
+    state.b = null;
+    show('screen-landing');
+  }
+
+  function fallbackCopy(text, done) {
+    var area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    try {
+      document.execCommand('copy');
+    } catch (error) {}
+    document.body.removeChild(area);
+    done();
+  }
+
+  function copyText(text, button) {
+    var done = function () {
+      var original = button.dataset.label || button.textContent;
+      button.dataset.label = original;
+      button.textContent = '已复制';
+      window.setTimeout(function () {
+        button.textContent = original;
+      }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () {
+        fallbackCopy(text, done);
+      });
+      return;
+    }
+    fallbackCopy(text, done);
+  }
+
+  function inviteText() {
+    var url = baseUrl() + '#a=' + serialize(state.a);
+    return '我想和你做这个「边界感默契测试」。12 道题，答完能看到我们的差异报告：\n'
+      + url + '\n\n（链接里只有我的答案，不上传、不保存，只发给你。）';
+  }
+
+  function reportText() {
+    var report = state.report;
+    var summary = summaryLines(report).join('');
+    var dims = DIMS.map(function (d) {
+      return '· ' + DIM_META[d].name + '：你「' + descriptor(d, report.mine[d])
+        + '」，Ta「' + descriptor(d, report.other[d]) + '」';
+    }).join('\n');
+    var advice = reportAdvice(report).map(function (item, i) {
+      return (i + 1) + '. [' + item.tag + '] ' + item.text;
+    }).join('\n');
+    return '我们在「边界感默契测试」里的相处接近度：' + report.score + '\n\n'
+      + report.headline + '\n\n'
+      + summary + '\n\n'
+      + '六个维度：\n' + dims + '\n\n'
+      + '相处建议：\n' + advice + '\n\n'
+      + '可以聊聊：\n'
+      + report.prompts.map(function (prompt, i) {
+          return (i + 1) + '. ' + prompt;
+        }).join('\n') + '\n\n'
+      + '完整报告：' + report.link + '\n\n'
+      + '（这不是出轨判定，也不是心理诊断，只是一次关于相处方式的对话。）';
+  }
+
+  $('start-solo').addEventListener('click', startSolo);
+  $('start-join').addEventListener('click', startJoin);
+  $('clear-hash').addEventListener('click', function () {
+    clearHash();
+    initFromHash();
+  });
+
+  $('quiz-back').addEventListener('click', function () {
+    if (state.q > 0) {
+      state.q -= 1;
+      renderQuestion();
+      return;
+    }
+    show(state.mode === 'solo' ? 'screen-landing' : 'screen-join');
+  });
+
+  $('quiz-options').addEventListener('click', function (event) {
+    var button = event.target.closest('.option');
+    if (!button) return;
+    var index = Number(button.dataset.index);
+    state.answers[state.q] = index;
+    var buttons = this.querySelectorAll('.option');
+    for (var i = 0; i < buttons.length; i += 1) {
+      var on = Number(buttons[i].dataset.index) === index;
+      buttons[i].classList.toggle('is-selected', on);
+      buttons[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    $('quiz-next').disabled = false;
+  });
+
+  $('quiz-next').addEventListener('click', function () {
+    if (state.answers[state.q] === null || state.answers[state.q] === undefined) return;
+    if (state.q < QUESTIONS.length - 1) {
+      state.q += 1;
+      renderQuestion();
+      return;
+    }
+    finishQuiz();
+  });
+
+  $('copy-invite').addEventListener('click', function () {
+    copyText(inviteText(), this);
+  });
+
+  $('solo-restart').addEventListener('click', startSolo);
+
+  $('copy-report').addEventListener('click', function () {
+    if (!state.report) return;
+    copyText(reportText(), this);
+  });
+
+  $('report-restart').addEventListener('click', function () {
+    clearHash();
+    initFromHash();
+  });
+
+  $('invite-link').addEventListener('click', function () {
+    this.select();
+  });
+
+  window.addEventListener('hashchange', initFromHash);
+
+  initFromHash();
+})();
+</script>
+</body>
+</html>
