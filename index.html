@@ -557,7 +557,7 @@
     <p class="hero-sub">Ta 已经答完 12 道题。你答完后，会看到一份你们相处方式的差异报告。</p>
     <ul class="join-list">
       <li>没有对错，只呈现差异</li>
-      <li>不是出轨判定，也不是心理诊断</li>
+      <li>这不是心理诊断，只是一次关于相处方式的对话</li>
       <li>答案只存在链接里，不上传、不保存</li>
     </ul>
     <button class="btn btn-primary" id="start-join" type="button">开始答题</button>
@@ -614,7 +614,7 @@
     <h3 class="section-title">可以聊聊</h3>
     <div class="talks" id="talk-list"></div>
     <div class="card soft">
-      <p class="card-text">这不是出轨判定，也不是心理诊断。它只呈现你们答案里的差异，关系怎么走，还是你们自己决定。</p>
+      <p class="card-text">这不是心理诊断，只是一次关于相处方式的对话。它只呈现你们答案里的差异，关系怎么走，还是你们自己决定。</p>
     </div>
     <div class="report-actions">
       <button class="btn btn-primary" id="copy-report" type="button">复制报告发给 Ta</button>
@@ -1272,7 +1272,7 @@
           return (i + 1) + '. ' + prompt;
         }).join('\n') + '\n\n'
       + '完整报告：' + report.link + '\n\n'
-      + '（这不是出轨判定，也不是心理诊断，只是一次关于相处方式的对话。）';
+      + '（这不是心理诊断，只是一次关于相处方式的对话。）';
   }
 
   $('start-solo').addEventListener('click', startSolo);
